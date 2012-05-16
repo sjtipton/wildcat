@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :team, class: Wildcat::Team do
+    id            { SecureRandom.random_number(1e2.to_i) }
     name          { ["Baltimore Ravens", "Carolina Panthers"].sample }
     nickname      { name.split(' ').last }
     abbreviation  { ["BAL", "CAR"].sample }
@@ -10,6 +11,7 @@ FactoryGirl.define do
   end
 
   factory :game, class: Wildcat::Game do
+    id            { SecureRandom.random_number(1e3.to_i) }
     label         { "Ravens at Panthers" }
     season        { Forgery(:date).year }
     stadium       { "Bank of America Stadium" }
