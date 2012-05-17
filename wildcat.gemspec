@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<rake>, ">= 0")
   s.add_dependency(%q<typhoeus>, ">= 0")
   s.add_dependency(%q<yajl-ruby>, ">= 0")
-  s.add_dependency(%q<activemodel>, '~> 3.1.0')
+  s.add_dependency(%q<activemodel>, '~> 3.2.3')
 
   s.add_development_dependency('rspec', '~> 2.6')
   s.add_development_dependency('factory_girl', '~> 2.1.2')
