@@ -1,3 +1,8 @@
+## Version 0.0.3
+
+**Expose Game.find_by_team**
+**Use Hydra stub helpers**
+
 ## Version 0.0.2
 
 **Expose Team resource**

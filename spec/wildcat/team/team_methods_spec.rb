@@ -8,8 +8,7 @@ describe Wildcat::Team do
 
     before do
       @attr = FactoryGirl.attributes_for(:team)
-      hydra = Typhoeus::Hydra.new(max_concurrency: 20)
-      Wildcat::Config.stub(:hydra) { hydra }
+      stub_hydra
     end
 
     it "should respond to find" do
@@ -19,17 +18,12 @@ describe Wildcat::Team do
     context "when present on ProFootballApi" do
 
       before do
-        response = Typhoeus::Response.new(code: 200,
-                                          headers: "",
-                                          body: @attr.to_json,
-                                          time: 0.1)
-        Wildcat::Config.hydra.stub(:get,
-                                Wildcat::Config.base_url +
-                                "/teams/#{@attr[:id]}?auth_token=#{Wildcat::Config.auth_token}").and_return(response)
+        team = Wildcat::Team.new(@attr)
+        stub_for_show_team(team)
       end
 
       after do
-        Wildcat::Config.hydra.clear_stubs
+        clear_get_stubs
       end
 
       it "should return a Wildcat::Team" do
@@ -171,12 +165,11 @@ describe Wildcat::Team do
   describe "Wildcat::Team.all" do
 
     before do
-      hydra = Typhoeus::Hydra.new(max_concurrency: 20)
-      Wildcat::Config.stub(:hydra) { hydra }
+      stub_hydra
     end
 
     after do
-      Wildcat::Config.hydra.clear_stubs
+      clear_get_stubs
     end
 
     it "should respond to 'all'" do
@@ -188,17 +181,11 @@ describe Wildcat::Team do
       before do
         @teams = []
         3.times { @teams << FactoryGirl.build(:team) }
-        Wildcat::Config.hydra.stub(:get,
-                               Wildcat::Config.base_url +
-                               "/teams?auth_token=#{Wildcat::Config.auth_token}").
-                               and_return(Typhoeus::Response.new(code: 200,
-                                                              headers: "",
-                                                                 body: @teams.to_json,
-                                                                 time: 0.1))
+        stub_for_team_index(@teams)
       end
 
       after do
-        Wildcat::Config.hydra.clear_stubs
+        clear_get_stubs
       end
 
       it "should return an array of teams" do

@@ -25,6 +25,16 @@ module HydraSpecHelper
                                                               time: 0.3 }))
   end
 
+  def stub_for_team_game_index(games)
+    Wildcat::Config.hydra.stub(:get,
+                          "#{Wildcat::Config.base_url}/teams/#{games.first.home_team_id}" +
+                          "/games?auth_token=#{Wildcat::Config.auth_token}").
+                          and_return(Typhoeus::Response.new({ code: 200,
+                                                              headers: "",
+                                                              body: games.to_json,
+                                                              time: 0.3 }))
+  end
+
   def stub_for_show_team(team)
     Wildcat::Config.hydra.stub(:get,
                           "#{Wildcat::Config.base_url}/teams/#{team.id}?" +
