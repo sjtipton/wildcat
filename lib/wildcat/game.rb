@@ -111,4 +111,39 @@ class Wildcat::Game
 
     Wildcat::Config.hydra.queue(request)
   end
+
+  def self.find_by_team(id)
+    request = Typhoeus::Request.new( Wildcat::Config.base_url +
+                                      "/teams/#{id}/games?auth_token=#{Wildcat::Config.auth_token}",
+                                      { method: :get,
+                                      timeout: Wildcat::Config.timeout,
+                                      headers: {:Accept => "application/json", "Content-Type" => "application/json"} })
+
+    request.on_complete do |response|
+      if response.success?
+        games = []
+        parsed = Yajl::Parser.parse(response.body, symbolize_keys: true)
+        parsed.each do |result|
+          games << new(id: result[:id],
+             away_team_id: result[:away_team_id],
+             home_team_id: result[:home_team_id],
+                    label: result[:label],
+                played_at: result[:played_at],
+                   season: result[:season],
+                  stadium: result[:stadium],
+                     week: result[:week])
+        end
+        yield games
+      elsif response.code == 401
+        raise Wildcat::UnauthorizedAccess.new
+      elsif (500..599).cover? response.code
+        raise Wildcat::ServiceUnavailable.new
+      else
+        raise Wildcat::Error.new(Wildcat::Error::GENERAL_ERROR,
+                                { error: response.curl_error_message })
+      end
+    end
+
+    Wildcat::Config.hydra.queue(request)
+  end
 end
