@@ -294,4 +294,44 @@ describe Wildcat::Team do
       end
     end
   end
+
+  describe "games" do
+
+    before do
+      stub_hydra
+      @teams, @games = [], []
+      names = [ "Carolina Panthers",
+                "Dallas Cowboys" ]
+
+      names.each do |n|
+        @teams << FactoryGirl.build(:team, name: n)
+      end
+
+      @opponent_ids = (1..32).to_a.reject { |v| v == @teams.first.id }
+
+      8.times do
+        @games << FactoryGirl.build(:game, home_team_id: @teams.first.id,
+                                           away_team_id: @opponent_ids.sample)
+        @games << FactoryGirl.build(:game, home_team_id: @opponent_ids.sample,
+                                           away_team_id: @teams.first.id)
+      end
+    end
+
+    after do
+      clear_get_stubs
+    end
+
+    it { should respond_to(:games) }
+
+    context "when valid" do
+
+      it "should return the games for a given team" do
+        @team = @teams.first
+        stub_for_team_game_index(@games)
+
+        @team.games.count.should == 16
+        @team.games.first.should be_a(Wildcat::Game)
+      end
+    end
+  end
 end

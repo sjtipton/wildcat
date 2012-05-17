@@ -1,3 +1,7 @@
+## Version 0.0.5
+
+**Expose @team.games**
+
 ## Version 0.0.4
 
 **Use ActiveModel version 3.2.3**

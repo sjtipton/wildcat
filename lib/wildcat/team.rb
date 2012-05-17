@@ -108,4 +108,10 @@ class Wildcat::Team
 
     Wildcat::Config.hydra.queue(request)
   end
+
+  def games
+    Wildcat::Game.find_by_team(self.id) { |g| @games = g }
+    Wildcat::Config.hydra.run
+    @games
+  end
 end
