@@ -18,10 +18,10 @@ Build the gem
 
 Install the gem
 
-    ruby -S gem install ./pkg/wildcat-0.0.3.gem
+    ruby -S gem install ./pkg/wildcat-0.0.4.gem
 
 To vendorize into a project
 
     cd path/to/project
 
-    gem unpack wildcat -v 0.0.3 --target ./vendor/gems
+    gem unpack wildcat -v 0.0.4 --target ./vendor/gems

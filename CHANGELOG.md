@@ -1,3 +1,7 @@
+## Version 0.0.4
+
+**Use ActiveModel version 3.2.3**
+
 ## Version 0.0.3
 
 **Expose Game.find_by_team**
