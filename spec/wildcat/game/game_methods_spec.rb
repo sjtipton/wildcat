@@ -18,13 +18,8 @@ describe Wildcat::Game do
     context "when present on ProFootballApi" do
 
       before do
-        response = Typhoeus::Response.new(code: 200,
-                                          headers: "",
-                                          body: @attr.to_json,
-                                          time: 0.1)
-        Wildcat::Config.hydra.stub(:get,
-                                Wildcat::Config.base_url +
-                                "/games/#{@attr[:id]}?auth_token=#{Wildcat::Config.auth_token}").and_return(response)
+        game = Wildcat::Game.new(@attr)
+        stub_for_show_game(game)
       end
 
       after do
@@ -186,13 +181,7 @@ describe Wildcat::Game do
       before do
         @games = []
         3.times { @games << FactoryGirl.build(:game) }
-        Wildcat::Config.hydra.stub(:get,
-                               Wildcat::Config.base_url +
-                               "/games?auth_token=#{Wildcat::Config.auth_token}").
-                               and_return(Typhoeus::Response.new(code: 200,
-                                                              headers: "",
-                                                                 body: @games.to_json,
-                                                                 time: 0.1))
+        stub_for_game_index(@games)
       end
 
       after do
@@ -340,14 +329,7 @@ describe Wildcat::Game do
     context "when valid" do
 
       before do
-        Wildcat::Config.hydra.stub(:get,
-                               Wildcat::Config.base_url +
-                               "/teams/#{@teams.first.id}/games?" +
-                               "auth_token=#{Wildcat::Config.auth_token}").
-                               and_return(Typhoeus::Response.new(code: 200,
-                                                              headers: "",
-                                                                 body: @games.to_json,
-                                                                 time: 0.1))
+        stub_for_team_game_index(@games)
       end
 
       after do

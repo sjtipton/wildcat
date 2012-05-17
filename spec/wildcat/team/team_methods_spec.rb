@@ -18,13 +18,8 @@ describe Wildcat::Team do
     context "when present on ProFootballApi" do
 
       before do
-        response = Typhoeus::Response.new(code: 200,
-                                          headers: "",
-                                          body: @attr.to_json,
-                                          time: 0.1)
-        Wildcat::Config.hydra.stub(:get,
-                                Wildcat::Config.base_url +
-                                "/teams/#{@attr[:id]}?auth_token=#{Wildcat::Config.auth_token}").and_return(response)
+        team = Wildcat::Team.new(@attr)
+        stub_for_show_team(team)
       end
 
       after do
@@ -186,13 +181,7 @@ describe Wildcat::Team do
       before do
         @teams = []
         3.times { @teams << FactoryGirl.build(:team) }
-        Wildcat::Config.hydra.stub(:get,
-                               Wildcat::Config.base_url +
-                               "/teams?auth_token=#{Wildcat::Config.auth_token}").
-                               and_return(Typhoeus::Response.new(code: 200,
-                                                              headers: "",
-                                                                 body: @teams.to_json,
-                                                                 time: 0.1))
+        stub_for_team_index(@teams)
       end
 
       after do
