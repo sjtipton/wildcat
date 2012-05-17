@@ -8,8 +8,7 @@ describe Wildcat::Game do
 
     before do
       @attr = FactoryGirl.attributes_for(:game)
-      hydra = Typhoeus::Hydra.new(max_concurrency: 20)
-      Wildcat::Config.stub(:hydra) { hydra }
+      stub_hydra
     end
 
     it "should respond to find" do
@@ -29,7 +28,7 @@ describe Wildcat::Game do
       end
 
       after do
-        Wildcat::Config.hydra.clear_stubs
+        clear_get_stubs
       end
 
       it "should return a Wildcat::Game" do
@@ -171,12 +170,11 @@ describe Wildcat::Game do
   describe "Wildcat::Game.all" do
 
     before do
-      hydra = Typhoeus::Hydra.new(max_concurrency: 20)
-      Wildcat::Config.stub(:hydra) { hydra }
+      stub_hydra
     end
 
     after do
-      Wildcat::Config.hydra.clear_stubs
+      clear_get_stubs
     end
 
     it "should respond to 'all'" do
@@ -198,7 +196,7 @@ describe Wildcat::Game do
       end
 
       after do
-        Wildcat::Config.hydra.clear_stubs
+        clear_get_stubs
       end
 
       it "should return an array of games" do
@@ -311,8 +309,7 @@ describe Wildcat::Game do
   describe "Wildcat::Game.find_by_team" do
 
     before do
-      hydra = Typhoeus::Hydra.new(max_concurrency: 20)
-      Wildcat::Config.stub(:hydra) { hydra }
+      stub_hydra
 
       @teams, @games = [], []
       names = [ "Carolina Panthers",
@@ -333,7 +330,7 @@ describe Wildcat::Game do
     end
 
     after do
-      Wildcat::Config.hydra.clear_stubs
+      clear_get_stubs
     end
 
     it "should respond to 'find_by_team'" do
@@ -354,7 +351,7 @@ describe Wildcat::Game do
       end
 
       after do
-        Wildcat::Config.hydra.clear_stubs
+        clear_get_stubs
       end
 
       it "should return an array of games for the specified team" do
