@@ -16,8 +16,8 @@ FactoryGirl.define do
     season        { Forgery(:date).year }
     stadium       { "Bank of America Stadium" }
     week          nil
-    home_team_id  SecureRandom.random_number(1e2.to_i)
-    away_team_id  SecureRandom.random_number(1e2.to_i)
+    home_team_id  { SecureRandom.random_number(1e2.to_i) }
+    away_team_id  { SecureRandom.random_number(1e2.to_i) }
     played_at     nil
   end
 end
