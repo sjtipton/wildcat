@@ -57,7 +57,7 @@ class Wildcat::Game
         away_team_id: parsed[:away_team_id],
         home_team_id: parsed[:home_team_id],
                label: parsed[:label],
-           played_at: parsed[:played_at],
+           played_at: Time.parse(parsed[:played_at]),
               season: parsed[:season],
              stadium: parsed[:stadium],
                 week: parsed[:week])
@@ -93,7 +93,7 @@ class Wildcat::Game
              away_team_id: result[:away_team_id],
              home_team_id: result[:home_team_id],
                     label: result[:label],
-                played_at: result[:played_at],
+                played_at: Time.parse(result[:played_at]),
                    season: result[:season],
                   stadium: result[:stadium],
                      week: result[:week])
@@ -128,7 +128,7 @@ class Wildcat::Game
              away_team_id: result[:away_team_id],
              home_team_id: result[:home_team_id],
                     label: result[:label],
-                played_at: result[:played_at],
+                played_at: Time.parse(result[:played_at]),
                    season: result[:season],
                   stadium: result[:stadium],
                      week: result[:week])
