@@ -1,3 +1,9 @@
+## Version 0.0.6
+
+**Add instance methods on @game**
+* `@game.home_team`
+* `@game.away_team`
+
 ## Version 0.0.5
 
 **Expose @team.games**
