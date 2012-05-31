@@ -1,4 +1,4 @@
-## Version 0.0.6
+## Version 0.0.7
 
 **Add instance methods on @game**
 * `@game.home_team`
