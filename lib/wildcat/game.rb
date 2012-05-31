@@ -152,4 +152,10 @@ class Wildcat::Game
     Wildcat::Config.hydra.run
     @team
   end
+
+  def away_team
+    Wildcat::Team.find(self.away_team_id) { |team| @team = team }
+    Wildcat::Config.hydra.run
+    @team
+  end
 end
