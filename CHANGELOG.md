@@ -4,6 +4,10 @@
 * `@game.home_team`
 * `@game.away_team`
 
+## Version 0.0.6
+
+**Return a valid Time object for :played_at**
+
 ## Version 0.0.5
 
 **Expose @team.games**

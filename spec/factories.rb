@@ -15,9 +15,9 @@ FactoryGirl.define do
     label         { "Ravens at Panthers" }
     season        { Forgery(:date).year }
     stadium       { "Bank of America Stadium" }
-    week          nil
-    home_team_id  SecureRandom.random_number(1e2.to_i)
-    away_team_id  SecureRandom.random_number(1e2.to_i)
-    played_at     nil
+    week          { (1..17).to_a.sample }
+    home_team_id  { SecureRandom.random_number(1e2.to_i) }
+    away_team_id  { SecureRandom.random_number(1e2.to_i) }
+    played_at     { Time.now }
   end
 end
