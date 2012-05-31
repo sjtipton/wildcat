@@ -35,6 +35,14 @@ describe Wildcat::Game do
         Wildcat::Config.hydra.run
         @game.should be_a(Wildcat::Game)
       end
+
+      it "should return played_at as a valid Time" do
+        @result = nil
+        Wildcat::Game.find(@attr[:id]){ |game| @result = game }
+        Wildcat::Config.hydra.run
+
+        @result.played_at.should be_a(Time)
+      end
     end
 
     context "when not found on ProFootballApi" do
@@ -199,7 +207,15 @@ describe Wildcat::Game do
         @result.should_not be_nil
         @result.should be_an(Array)
         @result.first.should be_a(Wildcat::Game)
-        @result.first.attributes.should eq(@games.first.attributes)
+        @result.first.id.should eq(@games.first.id)
+      end
+
+      it "should return played_at as a valid Time" do
+        @result = nil
+        Wildcat::Game.all { |games| @result = games }
+        Wildcat::Config.hydra.run
+
+        @result.first.played_at.should be_a(Time)
       end
     end
 
@@ -349,6 +365,14 @@ describe Wildcat::Game do
         @result.first.should be_a(Wildcat::Game)
         @result.first.home_team_id.should eq(@teams.first.id)
         @result.first.away_team_id.should eq(@teams[1].id)
+      end
+
+      it "should return played_at as a valid Time" do
+        @result = nil
+        Wildcat::Game.find_by_team(@teams.first.id) { |games| @result = games }
+        Wildcat::Config.hydra.run
+
+        @result.first.played_at.should be_a(Time)
       end
     end
 
