@@ -15,10 +15,13 @@ module HydraSpecHelper
                                                               time: 0.3 }))
   end
 
-  def stub_for_game_index(games)
+  def stub_for_game_index(games, opts={})
+    opts.symbolize_keys!
+    params = opts.reject { |k,v| v.blank? }
+    query_params = { auth_token: Wildcat::Config.auth_token }.merge(params).to_param
+
     Wildcat::Config.hydra.stub(:get,
-                          "#{Wildcat::Config.base_url}/games?" +
-                          "auth_token=#{Wildcat::Config.auth_token}").
+                          "#{Wildcat::Config.base_url}/games?#{query_params}").
                           and_return(Typhoeus::Response.new({ code: 200,
                                                               headers: "",
                                                               body: games.to_json,

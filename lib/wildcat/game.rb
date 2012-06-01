@@ -77,9 +77,12 @@ class Wildcat::Game
     Wildcat::Config.hydra.queue(request)
   end
 
-  def self.all
+  def self.all(opts={})
+    opts.symbolize_keys!
+    params = opts.reject { |k,v| v.blank? }
+    query_params = { auth_token: Wildcat::Config.auth_token }.merge(params).to_param
     request = Typhoeus::Request.new( Wildcat::Config.base_url +
-                                      "/games?auth_token=#{Wildcat::Config.auth_token}",
+                                      "/games?#{query_params}",
                                       { method: :get,
                                       timeout: Wildcat::Config.timeout,
                                       headers: {:Accept => "application/json", "Content-Type" => "application/json"} })

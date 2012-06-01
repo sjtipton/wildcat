@@ -1,3 +1,7 @@
+## Version 0.0.8
+
+**Add opts hash to Wildcat::Game.all to optionally return games by week**
+
 ## Version 0.0.7
 
 **Add instance methods on @game**

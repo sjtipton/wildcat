@@ -219,6 +219,41 @@ describe Wildcat::Game do
       end
     end
 
+    context "when specifying a week" do
+
+      before do
+        @games = FactoryGirl.build_list(:game, 16, week: 1)
+        stub_for_game_index(@games, week: 1)
+      end
+
+      after do
+        clear_get_stubs
+      end
+
+      it "should return an array of games" do
+        @result = nil
+
+        Wildcat::Game.all(week: 1) do |games|
+          @result = games
+        end
+        Wildcat::Config.hydra.run
+
+        @result.should_not be_nil
+        @result.should be_an(Array)
+        @result.first.should be_a(Wildcat::Game)
+        @result.first.id.should eq(@games.first.id)
+        @result.first.week.should be(1)
+      end
+
+      it "should return played_at as a valid Time" do
+        @result = nil
+        Wildcat::Game.all(week: 1) { |games| @result = games }
+        Wildcat::Config.hydra.run
+
+        @result.first.played_at.should be_a(Time)
+      end
+    end
+
     context "when not authorized" do
 
       before do
